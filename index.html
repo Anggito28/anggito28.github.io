@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Wedding of Atssil & Anggito">
+    <title>The Wedding of Atssil & Anggito</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <style>
+        /* ================= DESIGN SYSTEM VARIABLES ================= */
+        :root {
+            --bg-color: #f5f2eb;      
+            --bg-card: #ffffff;
+            --primary-text: #3a342c;  
+            --accent: #b89c72;        
+            --accent-muted: #e3dac9;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-script: 'Dancing Script', cursive;
+            --radius-inner: 16px;     
+            --radius-outer: 28px;     
+            --radius-btn: 30px;       
+        }
+
+        /* ================= RESET & GENERAL STYLE ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--primary-text); overflow-x: hidden; line-height: 1.6; }
+        
+        h1, h2, h3, h4 { font-weight: 400; }
+        .section-pad { padding: 100px 20px; }
+        .text-center { text-align: center; }
+        .container { max-width: 1050px; margin: 0 auto; }
+        
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 3.6rem;
+            margin-bottom: 12px;
+            font-style: normal; 
+            font-weight: 400;
+            color: var(--primary-text);
+            letter-spacing: 1px;
+        }
+
+        .vintage-frame {
+            border: 1px solid var(--accent);
+            border-radius: var(--radius-outer);
+            padding: 40px;
+            position: relative;
+            background: var(--bg-card);
+            box-shadow: 0 15px 40px rgba(58, 52, 44, 0.05);
+        }
+        
+        .btn { 
+            display: inline-block; 
+            padding: 12px 35px; 
+            border: 1px solid var(--accent); 
+            background: transparent; 
+            color: var(--primary-text); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            cursor: pointer; 
+            border-radius: var(--radius-btn); 
+            font-weight: 600;
+        }
+        .btn:hover { 
+            background: var(--accent); 
+            color: #fff; 
+            box-shadow: 0 8px 25px rgba(184, 156, 114, 0.35);
+            transform: translateY(-2px);
+        }
+
+        /* OPTIMASI 3: Hardware Acceleration pada filter & animasi */
+        .sepia-effect { 
+            filter: sepia(0.2) contrast(0.95) brightness(0.92); 
+            transition: filter 0.5s ease;
+            will-change: filter;
+        }
+        .sepia-effect:hover { filter: sepia(0) contrast(1) brightness(1); }
+
+        /* ================= ANIMASI SCROLL DINAMIS (DIOPTIMASI) ================= */
+        .animate-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform; /* Beri tahu browser elemen ini akan bergerak */
+        }
+        .animate-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mengaktifkan Hardware Acceleration (GPU) untuk semua elemen bergerak terus-menerus */
+        .circle-marquee-track, .side-track, .vertical-track, .main-gallery-track, .gallery-infinite-track, .rsvp-track, .bg-slider .slide, .closing-scroll-bg {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* ================= 1. COVER SCREEN OVERLAY ================= */
+        #cover-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; text-align: center;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); overflow: hidden;
+            will-change: transform;
+        }
+        #cover-screen.hide { transform: translateY(-100vh); }
+
+        .bg-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: #000; }
+        .bg-slider .slide { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; animation: smoothFadeBg 18s infinite ease-in-out; filter: brightness(0.5) sepia(0.25); }
+        .bg-slider .slide:nth-child(1) { background-image: url('Foto_prewed/atsil-231.jpg'); animation-delay: 0s; }
+        .bg-slider .slide:nth-child(2) { background-image: url('Foto_prewed/atsil-230.jpg'); animation-delay: 6s; }
+        .bg-slider .slide:nth-child(3) { background-image: url('Foto_prewed/atsil-221.jpg'); animation-delay: 12s; }
+        @keyframes smoothFadeBg { 0%, 100% { opacity: 0; transform: scale(1); } 12%, 33% { opacity: 1; transform: scale(1.04); } 45% { opacity: 0; transform: scale(1.08); } }
+
+        #cover-screen h3 { font-size: 1.1rem; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 15px; font-weight: 300; }
+        #cover-screen h1 { font-size: 5rem; margin-bottom: 25px; font-family: var(--font-serif); }
+
+        .guest-tag-box { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.25); padding: 25px 45px; margin-bottom: 35px; border-radius: var(--radius-outer); max-width: 90%; }
+        .guest-tag-box p { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.85; }
+        .guest-tag-box h2 { font-family: var(--font-sans); font-size: 1.7rem; font-weight: 500; color: #f3dfc1; }
+
+        /* ================= 2. MAIN HERO SECTION ================= */
+        #main-hero { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        #main-hero .subtitle { font-size: 1rem; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 10px; }
+        #main-hero h1 { font-size: 5.5rem; margin-bottom: 30px; line-height: 1; text-shadow: 2px 2px 15px rgba(0,0,0,0.4); font-family: var(--font-serif); }
+
+        .countdown { display: flex; gap: 20px; }
+        .cd-box { 
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.35); 
+            width: 105px; height: 105px; border-radius: 50%; backdrop-filter: blur(4px); transition: transform 0.4s ease, background 0.4s ease; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0;
+            will-change: transform;
+        }
+        .cd-box:hover { transform: translateY(-4px); background: rgba(184, 156, 114, 0.3); border-color: var(--accent); }
+        .cd-box span { display: block; font-size: 2.3rem; font-family: var(--font-serif); line-height: 1; margin-bottom: 2px; }
+        .cd-box small { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; opacity: 0.9; }
+
+        /* ================= 3. INTRO ================= */
+        .intro-passage { max-width: 750px; margin: 0 auto; font-style: italic; font-size: 1.15rem; color: #5a5247; line-height: 1.8; }
+        
+        .circle-slider-outer { overflow: hidden; width: 100%; margin-top: 55px; padding: 15px 0; position: relative; }
+        .circle-marquee-track { display: flex; gap: 35px; width: max-content; animation: infiniteMarquee 38s linear infinite; }
+        .circle-marquee-track:hover { animation-play-state: paused; }
+        .circle-marquee-track img { width: 145px; height: 145px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        @keyframes infiniteMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ================= 4. BRIDE & GROOM PROFILE ================= */
+        .couple-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch; gap: 30px; margin-top: 50px; position: relative; }
+        .mempelai-profile { text-align: center; flex: 1; min-width: 320px; }
+        
+        .side-slider-container { 
+            width: 290px; height: 390px; margin: 0 auto 30px; overflow: hidden; 
+            border-radius: 140px 140px 16px 16px; border: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); position: relative; transition: transform 0.5s ease;
+        }
+        .side-slider-container:hover { transform: scale(1.02); }
+        .side-track { display: flex; width: 200%; height: 100%; animation: autoSideSlide 9s infinite alternate ease-in-out; }
+        .side-track img { width: 50%; height: 100%; object-fit: cover; }
+        @keyframes autoSideSlide { 0%, 40% { transform: translateX(0); } 60%, 100% { transform: translateX(-50%); } }
+        
+        .mempelai-profile h2 { font-size: 2.6rem; margin-bottom: 6px; color: var(--primary-text); font-family: var(--font-serif); }
+        .mempelai-profile p { font-size: 0.95rem; color: #6e6456; margin-bottom: 25px; padding: 0 10px; }
+
+        .ampersand-divider { flex-basis: 100%; text-align: center; margin: 20px 0; display: flex; justify-content: center; align-items: center; }
+        .ampersand-divider h1 { font-family: var(--font-serif); font-size: 4rem; color: var(--accent); opacity: 0.5; margin: 0; }
+
+        /* ================= SURAH AR-RUM ================= */
+        .arrum-container { background-color: #faf9f5; padding: 80px 20px; border-top: 1px solid var(--accent-muted); border-bottom: 1px solid var(--accent-muted); }
+        .arrum-box { max-width: 800px; margin: 0 auto; padding: 40px 30px; border: 1px dashed var(--accent); border-radius: var(--radius-outer); background: #fff; text-align: center; }
+        .arrum-translation { font-family: var(--font-sans); font-size: 0.95rem; font-style: italic; color: #5c554a; line-height: 1.8; max-width: 700px; margin: 0 auto; }
+
+        /* ================= 5. WEDDING EVENTS ================= */
+        #events-section { position: relative; overflow: hidden; }
+        .we-section-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 0; opacity: 0.08; overflow: hidden; }
+        .we-section-bg .we-slide { position: absolute; width:100%; height:100%; background-size: cover; background-position: center; opacity: 0; animation: smoothFadeBg 12s infinite ease-in-out; }
+        .we-section-bg .we-slide:nth-child(1) { background-image: url('Foto_prewed/JFRL9525.jpg'); animation-delay: 0s; }
+        .we-section-bg .we-slide:nth-child(2) { background-image: url('Foto_prewed/JFRL9596.jpg'); animation-delay: 6s; }
+
+        .event-flex { display: flex; justify-content: center; flex-wrap: wrap; gap: 35px; margin-top: 40px; position: relative; z-index: 1; }
+        .event-inner-card { flex: 1; min-width: 280px; text-align: center; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); }
+        .event-inner-card h3 { font-family: var(--font-serif); font-size: 2.5rem; color: var(--accent); margin-bottom: 12px; }
+        .event-inner-card .date-text { font-family: var(--font-sans); font-weight: 700; font-size: 1rem; margin-bottom: 4px; letter-spacing: 1px; }
+        .event-inner-card .time-text { color: #6e6456; font-size: 0.9rem; margin-bottom: 20px; display: block; }
+        
+        /* ================= 6. OUR STORY ================= */
+        #story-section { position: relative; overflow: hidden; background-color: #eeeae1; padding: 110px 20px; display: flex; justify-content: center; }
+        .story-faint-slider { position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0.08; z-index: 1; }
+        .story-faint-slider .faint-slide { position: absolute; width:100%; height:100%; background-size: cover; background-position: center; opacity: 0; animation: smoothFadeBg 14s infinite ease-in-out; }
+        .story-faint-slider .faint-slide:nth-child(1) { background-image: url('Foto_prewed/JFRL9319.jpg'); animation-delay: 0s; }
+        .story-faint-slider .faint-slide:nth-child(2) { background-image: url('Foto_prewed/JFRL9314.jpg'); animation-delay: 7s; }
+        
+        .story-box-layout { position: relative; z-index: 2; display: flex; max-width: 1050px; width: 100%; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); box-shadow: 0 30px 60px rgba(58,32,10,0.05); border-radius: var(--radius-outer); overflow: hidden; border: 1px solid var(--accent-muted); }
+        
+        .story-photo-left { width: 42%; position: relative; overflow: hidden; min-height: 550px;}
+        .vertical-track { height: 300%; animation: autoVerticalSlide 16s infinite alternate ease-in-out; display: flex; flex-direction: column; }
+        .vertical-track img { width: 100%; height: 33.333%; object-fit: cover; filter: sepia(0.2) brightness(0.9); }
+        @keyframes autoVerticalSlide { 0%, 25% { transform: translateY(0); } 38%, 68% { transform: translateY(-33.333%); } 80%, 100% { transform: translateY(-66.666%); } }
+
+        .story-timeline-right { width: 58%; display: flex; position: relative; padding: 50px 40px; }
+        .timeline-spine { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        
+        .story-editorial-card { background: rgba(255, 255, 255, 0.6); padding: 25px 30px; border-radius: var(--radius-inner); border: 1px solid rgba(184, 156, 114, 0.15); display: flex; gap: 25px; align-items: flex-start; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .story-editorial-card:hover { background: #ffffff; border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(184, 156, 114, 0.1); }
+        .story-number-callout { font-family: var(--font-serif); font-style: italic; font-size: 2.5rem; color: var(--accent); line-height: 1; font-weight: 600; opacity: 0.8; min-width: 45px; }
+        .story-body-content { flex: 1; }
+        .story-date-tag { font-size: 0.78rem; font-weight: 600; color: #8a7e70; margin-bottom: 6px; display: block; letter-spacing: 1.5px; text-transform: uppercase; }
+        .story-editorial-card h4 { font-size: 1.9rem; margin-bottom: 8px; font-family: var(--font-serif); color: var(--primary-text); }
+        .story-editorial-card p { font-size: 0.9rem; color: #5c554a; text-align: justify; line-height: 1.6; }
+
+        .vertical-panel-text { width: 60px; display: flex; justify-content: center; align-items: center; border-left: 1px solid var(--bg-color); background-color: rgba(250, 249, 246, 0.5); }
+        .rotated-title { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-serif); font-size: 2.3rem; color: #c0b3a0; letter-spacing: 5px; text-transform: uppercase; font-weight: 300; }
+
+        /* ================= 7. GALLERY SECTION ================= */
+        #gallery-section { background: linear-gradient(rgba(245, 242, 235, 0.88), rgba(245, 242, 235, 0.88)), url('Foto_Prewed/JFRL9596.jpg') center/cover no-repeat fixed; padding: 100px 20px; }
+        .gallery-wrapper { max-width: 900px; margin: 0 auto; position: relative; }
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: var(--radius-inner); overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); margin-bottom: 40px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        .main-gallery-container { width: 100%; height: 580px; margin-bottom: 25px; border-radius: var(--radius-inner); overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.08); position: relative; background: #000; }
+        .main-gallery-track { display: flex; width: 500%; height: 100%; animation: autoMainGallerySlide 20s infinite ease-in-out; }
+        .main-gallery-track img { width: 20%; height: 100%; object-fit: cover; border: none; filter: sepia(0.15); }
+        @keyframes autoMainGallerySlide {
+            0%, 16% { transform: translateX(0); } 20%, 36% { transform: translateX(-20%); } 40%, 56% { transform: translateX(-40%); }
+            60%, 76% { transform: translateX(-60%); } 80%, 96% { transform: translateX(-80%); } 100% { transform: translateX(0); }
+        }
+
+        .gallery-marquee-outer { overflow: hidden; width: 100%; padding: 5px 0; }
+        .gallery-infinite-track { display: flex; gap: 15px; width: max-content; animation: slowMarqueeGallery 45s linear infinite; }
+        .gallery-infinite-track:hover { animation-play-state: paused; }
+        .gallery-infinite-track img { width: 150px; height: 105px; border-radius: 8px; object-fit: cover; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.06); filter: sepia(0.2); transition: transform 0.3s ease; }
+        .gallery-infinite-track img:hover { transform: scale(1.04); filter: sepia(0); }
+        @keyframes slowMarqueeGallery { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ================= 8. WEDDING GIFT SECTION ================= */
+        .gift-container-outer { max-width: 500px; margin: 40px auto 0; text-align: center; }
+        .btn-klik-disini { background: #8b8270; color: #fff; border: none; padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; font-size: 0.9rem; border-radius: 4px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-klik-disini:hover { background: #736b5c; box-shadow: 0 5px 15px rgba(139, 130, 112, 0.4); }
+        .gift-collapse-wrapper { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .gift-solid-box { background: #aea79a; border-radius: 12px; padding: 40px 30px; margin-top: 25px; color: #fff; text-align: center; }
+        .gift-bank-logo { background: #fff; display: inline-block; padding: 4px 15px; border-radius: 4px; margin-bottom: 15px; }
+        .gift-bank-logo.bca { color: #0056A0; font-family: Arial, sans-serif; font-weight: 900; font-style: italic; font-size: 1.8rem; line-height: 1; }
+        .gift-bank-logo.bni { color: #F15A23; font-family: Arial, sans-serif; font-weight: 900; font-style: italic; font-size: 1.8rem; line-height: 1; }
+        .gift-info-text { font-family: var(--font-sans); font-weight: 600; font-size: 1rem; line-height: 1.6; letter-spacing: 0.5px; margin-bottom: 20px; color: #fff; }
+        .btn-salin-gift { background: #8b8270; color: #fff; border: none; padding: 10px 30px; font-family: var(--font-sans); font-weight: 500; font-size: 0.95rem; border-radius: 4px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-salin-gift:hover { background: #736b5c; }
+        .gift-divider { height: 1px; background: rgba(255, 255, 255, 0.5); margin: 40px 0; width: 100%; }
+        .gift-icon-large { font-size: 3.5rem; color: #fff; margin-bottom: 15px; }
+
+        /* ================= 9. REVISED RSVP SECTION ================= */
+        .rsvp-section-wrapper {
+            background-color: #a49e91; 
+            padding: 80px 20px;
+        }
+        .rsvp-header-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-style: italic;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        .rsvp-header-desc {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: #ffffff;
+            font-weight: 500;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .rsvp-main-container {
+            background-color: #f7f6f2; 
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 550px;
+            margin: 0 auto;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .rsvp-input {
+            width: 100%;
+            border: 1px solid #dcd7ce;
+            border-radius: 6px;
+            padding: 14px 15px;
+            margin-bottom: 15px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: #555;
+            background-color: #ffffff;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .rsvp-input:focus { border-color: var(--accent); }
+        .btn-rsvp-kirim {
+            background-color: #b1a796;
+            color: #ffffff;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 6px;
+            font-family: var(--font-serif);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-rsvp-kirim:hover { background-color: #9c9282; }
+
+        .comment-list-area { margin-top: 30px; }
+        .comment-item { border-top: 1px solid #e1dbcf; padding: 18px 0; }
+        .comment-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .comment-name { font-family: var(--font-sans); font-weight: 700; color: #726048; font-size: 1.05rem; }
+        
+        .status-badge-modern {
+            font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
+            padding: 3px 10px; border-radius: 12px; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .status-hadir { background: #e8f5e9; color: #2e7d32; }
+        .status-tidak { background: #ffebee; color: #c62828; }
+        .status-tentative { background: #f5f5f5; color: #616161; }
+
+        .comment-text { font-family: var(--font-sans); color: #5a5a5a; font-size: 0.95rem; line-height: 1.5; margin-bottom: 8px; }
+        .comment-meta { font-family: var(--font-sans); font-size: 0.75rem; color: #222; display: flex; align-items: center; gap: 5px; }
+        .comment-reply-btn { font-weight: 700; color: #726048; cursor: pointer; margin-left: 10px; }
+        .notif-error-msg { color: #c62828; font-family: var(--font-sans); font-size: 0.9rem; text-align: center; padding: 20px; display: none; }
+
+        /* ================= 10. DOAKAN KAMI ================= */
+        .pray-section { padding: 80px 20px 60px; background-color: var(--bg-card); }
+        .pray-title-beautiful { font-family: var(--font-script); font-size: 2.8rem; color: #63574c; margin-bottom: 20px; }
+        .pray-content-text { font-family: var(--font-sans); font-size: 0.95rem; color: #555; line-height: 1.8; max-width: 650px; margin: 0 auto; }
+
+        /* ================= 11. CLOSING SECTION ================= */
+        #closing-section { 
+            position: relative; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            text-align: center; 
+            overflow: hidden; 
+            padding: 100px 20px 40px;
+        }
+        .closing-scroll-bg { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 160%; 
+            background: url('Foto_Prewed/JFRL9596.jpg') center top / cover no-repeat; 
+            z-index: -2; animation: autoScrollUpBg 35s linear infinite alternate; 
+        }
+        @keyframes autoScrollUpBg { 0% { transform: translateY(0); } 100% { transform: translateY(-22%); } }
+        
+        .closing-gradient-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(168, 161, 147, 0.45) 0%, rgba(168, 161, 147, 0.9) 50%, rgba(168, 161, 147, 1) 100%);
+            z-index: -1;
+        }
+
+        .closing-passage-box { max-width: 800px; padding: 0 20px; position: relative; z-index: 5; }
+        .closing-top-text { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px; }
+        .closing-names { font-family: var(--font-serif); font-size: 5.5rem; margin-bottom: 25px; line-height: 1.1; }
+        .closing-desc { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 500; line-height: 1.8; max-width: 650px; margin: 0 auto; }
+
+        .footer-credit { position: relative; z-index: 5; margin-top: auto; padding-top: 80px; }
+        .footer-credit p { font-family: var(--font-sans); font-size: 0.95rem; margin-bottom: 6px; opacity: 0.9; }
+        .footer-icons { margin-top: 20px; display: flex; justify-content: center; gap: 18px; }
+        .footer-icons a { color: white; font-size: 1.6rem; text-decoration: none; transition: 0.3s; }
+        .footer-icons a:hover { opacity: 0.6; transform: scale(1.1); }
+
+        /* ================= AUDIO BUTTON STYLING ================= */
+        .music-control-widget { position: fixed; bottom: 35px; right: 35px; width: 55px; height: 55px; background: var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 9999; box-shadow: 0 6px 20px rgba(0,0,0,0.3); color: white; font-size: 1.25rem; border: none; transition: transform 0.3s ease; }
+        .music-control-widget:hover { transform: scale(1.1); }
+        .music-control-widget i { animation: spinVinyl 4.5s linear infinite; }
+        .music-control-widget.paused { background: var(--primary-text); }
+        .music-control-widget.paused i { animation: none; }
+        @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
+
+        /* ================= RESPONSIVE ADJUSTMENT ================= */
+        @media(max-width: 900px) {
+            .story-box-layout { flex-direction: column; }
+            .story-photo-left { width: 100%; height: 350px; min-height: 350px; }
+            .story-timeline-right { width: 100%; flex-direction: column; padding: 35px 20px; }
+            .timeline-spine { padding-right: 0; }
+            .vertical-panel-text { width: 100%; border-left: none; border-top: 1px solid var(--bg-color); padding: 20px 0; background-color: #faf9f6; }
+            .rotated-title { writing-mode: horizontal-tb; transform: none; font-size: 2.1rem; }
+            #cover-screen h1, #main-hero h1 { font-size: 3.8rem; }
+            .closing-names { font-size: 4rem; }
+            .main-gallery-container { height: 400px; }
+            .section-title { font-size: 3.2rem; }
+            .ampersand-divider h1 { font-size: 3rem; }
+        }
+        @media(max-width: 600px) {
+            #cover-screen h1, #main-hero h1 { font-size: 3rem; }
+            .countdown { flex-wrap: wrap; justify-content: center; }
+            .story-editorial-card { flex-direction: column; gap: 10px; }
+            .gift-solid-box { padding: 30px 20px; }
+            .section-title { font-size: 2.8rem; }
+            .closing-names { font-size: 3.2rem; }
+            .rsvp-header-title { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cover-screen">
+        <div class="bg-slider">
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+        </div>
+        
+        <h3 class="animate-up">The Wedding Of</h3>
+        <h1 class="section-title animate-up" style="color: white; animation-delay: 0.2s;">Atssil & Anggito</h1>
+        
+        <div class="guest-tag-box animate-up" style="animation-delay: 0.4s;">
+            <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            <h2 id="guest-name">Nama Tamu Undangan</h2>
+        </div>
+
+        <button class="btn animate-up" style="color: #fff; border-color: #fff; animation-delay: 0.6s;" onclick="openInvitation()">
+            <i class="envelope-icon far fa-envelope-open" style="margin-right: 8px;"></i> Buka Undangan
+        </button>
+    </div>
+
+    <section id="main-hero">
+        <div class="bg-slider">
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+        </div>
+        
+        <p class="subtitle animate-up">The Wedding Of</p>
+        <h1 class="section-title animate-up" style="color: white; text-shadow: 2px 2px 15px rgba(0,0,0,0.4);">Atssil & Anggito</h1>
+        
+        <div class="countdown animate-up" id="countdown-wrapper">
+            <div class="cd-box"><span id="days">00</span><small>Days</small></div>
+            <div class="cd-box"><span id="hours">00</span><small>Hours</small></div>
+            <div class="cd-box"><span id="minutes">00</span><small>Mins</small></div>
+            <div class="cd-box"><span id="seconds">00</span><small>Secs</small></div>
+        </div>
+    </section>
+
+    <section class="section-pad text-center">
+        <div class="container">
+            <h2 class="section-title animate-up" style="font-size: 3.2rem; color: var(--accent);">Assalamu'alaikum wr. wb.</h2>
+            <p class="intro-passage animate-up">
+                Segala Puji Bagi Allah SWT yang telah menjadikan hamba-Nya hidup berpasang-pasangan. Dengan memohon Ridho, Rahmat, dan Berkah Allah SWT, kami bermaksud untuk mengundang Bapak/Ibu/Saudara/i dalam acara pernikahan kami.
+            </p>
+
+            <div class="circle-slider-outer animate-up">
+                <div class="circle-marquee-track">
+                    <img loading="lazy" src="Foto_prewed/atsil-223.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-230.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-324.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9419.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9314.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9525.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-228.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9419.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-231.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-223.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-230.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-324.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9419.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9314.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9525.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-228.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/JFRL9419.jpg" class="sepia-effect" alt="prewed">
+                    <img loading="lazy" src="Foto_prewed/atsil-231.jpg" class="sepia-effect" alt="prewed">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container" style="padding-top: 0;">
+        <h1 class="text-center section-title animate-up">Bride & Groom</h1>
+        <div class="animate-up" style="width: 50px; height: 1px; background: var(--accent); margin: 0 auto 40px;"></div>
+        
+        <div class="couple-grid animate-up">
+            <div class="mempelai-profile">
+                <div class="side-slider-container">
+                    <div class="side-track">
+                        <img loading="lazy" src="Foto_Prewed/atsil-225.jpg" alt="Atssil 1">
+                        <img loading="lazy" src="Foto_prewed/atsil-223.jpg" alt="Atssil 2">
+                    </div>
+                </div>
+                <span style="color: var(--accent); letter-spacing: 3px; font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 5px;">The Bride</span>
+                <h2 class="section-title" style="font-size: 2.6rem; margin-bottom: 6px;">Atssil Revinda Kharisma Amin, S.M</h2>
+                <p>Putri Pertama dari Bapak Rais Amin & Ibu Nur Imamah</p>
+                <a href="https://www.instagram.com/rvdaaa__/" target="_blank" class="btn"><i class="fab fa-instagram" style="margin-right: 5px;"></i> Instagram</a>
+            </div>
+            
+            <div class="ampersand-divider animate-up">
+                <h1 style="font-family: var(--font-serif); font-size: 4rem; color: var(--accent); opacity: 0.5; margin: 0;">&</h1>
+            </div>
+
+            <div class="mempelai-profile">
+                <div class="side-slider-container">
+                    <div class="side-track">
+                        <img loading="lazy" src="Foto_prewed/JFRL9319.jpg" alt="Groom 1">
+                        <img loading="lazy" src="Foto_prewed/atsil-329.jpg" alt="Groom 2">
+                    </div>
+                </div>
+                <span style="color: var(--accent); letter-spacing: 3px; font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 5px;">The Groom</span>
+                <h2 class="section-title" style="font-size: 2.6rem; margin-bottom: 6px;">Anggito Suryo Baskoro, S.Tr.Kom</h2>
+                <p>Putra Pertama dari Bapak Achmad Rahmadi, ST & Ibu Sapartina</p>
+                <a href="https://www.instagram.com/anggitosuryo28/" target="_blank" class="btn"><i class="fab fa-instagram" style="margin-right: 5px;"></i> Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="arrum-container animate-up">
+        <div class="arrum-box">
+            <h3 class="section-title" style="font-size: 2.4rem; color: var(--accent); margin-bottom: 20px;">QS. Ar-Rum Ayat 21</h3>
+            <p class="arrum-translation">
+                "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."
+            </p>
+        </div>
+    </section>
+
+    <section id="events-section" class="section-pad container text-center">
+        <div class="we-section-bg">
+            <div class="we-slide"></div>
+            <div class="we-slide"></div>
+        </div>
+
+        <h1 class="section-title animate-up" style="position:relative; z-index:1;">Wedding Event</h1>
+        <div class="animate-up" style="width: 50px; height: 1px; background: var(--accent); margin: 0 auto 40px; position:relative; z-index:1;"></div>
+        
+        <div class="event-flex animate-up">
+            <div class="event-inner-card vintage-frame">
+                <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;">Akad Nikah</h3>
+                <p class="date-text">MINGGU, 23 Agustus 2026</p>
+                <p class="time-text">Pukul 09.00 - 10.00 WIB</p>
+                <p style="font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; color: var(--primary-text);">Kediaman Mempelai Wanita</p>
+                <p style="font-size: 0.85rem; color: #6e6456; margin-bottom: 25px;">Jl. Nogosromo, RT.1/RW.1, Dusun Kojuk, Desa Belimbing, Besuki, Kab. Situbondo</p>
+                <a href="https://maps.app.goo.gl/v254N9DsF1aAJJJq6" target="_blank" class="btn" style="font-size: 0.75rem;"><i class="fas fa-map-marked-alt"></i> Penunjuk Lokasi</a>
+            </div>
+            <div class="event-inner-card vintage-frame">
+                <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;">Resepsi</h3>
+                <p class="date-text">MINGGU, 23 Agustus 2026</p>
+                <p class="time-text">Pukul 13.00 - 16.00 WIB</p>
+                <p style="font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; color: var(--primary-text);">Kediaman Mempelai Wanita</p>
+                <p style="font-size: 0.85rem; color: #6e6456; margin-bottom: 25px;">Jl. Nogosromo, RT.1/RW.1, Dusun Kojuk, Desa Belimbing, Besuki, Kab. Situbondo</p>
+                <a href="https://maps.app.goo.gl/v254N9DsF1aAJJJq6" target="_blank" class="btn" style="font-size: 0.75rem;"><i class="fas fa-map-marked-alt"></i> Penunjuk Lokasi</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="story-section">
+        <div class="story-faint-slider">
+            <div class="faint-slide"></div>
+            <div class="faint-slide"></div>
+        </div>
+        
+        <div class="story-box-layout animate-up">
+            <div class="story-photo-left">
+                <div class="vertical-track">
+                    <img loading="lazy" src="Foto_prewed/atsil-221.jpg" alt="st1">
+                    <img loading="lazy" src="Foto_prewed/JFRL9553.jpg" alt="st2">
+                    <img loading="lazy" src="Foto_prewed/atsil-230.jpg" alt="st3">
+                </div>
+            </div>
+            
+            <div class="story-timeline-right">
+                <div class="timeline-spine">
+                    <div class="story-editorial-card">
+                        <div class="story-number-callout">01</div>
+                        <div class="story-body-content">
+                            <span class="story-date-tag">02 November 2024</span>
+                            <h4 style="font-family: var(--font-serif); font-size: 1.9rem; margin-bottom: 8px;">Awal Bertemu</h4>
+                            <p>Berawal dari sosial media, dimana perkenalan canggung itu ternyata membawa kesan yang sulit untuk dilupakan, kemudian keakraban dimulai saat kami memiliki hobi dan ketertarikan yang sama. Akhirnya kami memutuskan untuk bertemu untuk berkenalan lebih jauh.</p>
+                        </div>
+                    </div>
+
+                    <div class="story-editorial-card">
+                        <div class="story-number-callout">02</div>
+                        <div class="story-body-content">
+                            <span class="story-date-tag">09 November 2024</span>
+                            <h4 style="font-family: var(--font-serif); font-size: 1.9rem; margin-bottom: 8px;">Menjalin Hubungan</h4>
+                            <p>Komunikasi intensif yang berjalan hangat menuntun kami menemukan harmoni jiwa, hingga akhirnya sepakat mengikat komitmen bersama.</p>
+                        </div>
+                    </div>
+
+                    <div class="story-editorial-card">
+                        <div class="story-number-callout">03</div>
+                        <div class="story-body-content">
+                            <span class="story-date-tag">15 Januari 2023</span>
+                            <h4 style="font-family: var(--font-serif); font-size: 1.9rem; margin-bottom: 8px;">Pertunangan</h4>
+                            <p>Setelah melalui banyak waktu bersama, kamipun melangkah mantap menuju proses pertunangan suci ini.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="vertical-panel-text">
+                    <div class="rotated-title">Our Story</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery-section" class="text-center">
+        <h1 class="section-title animate-up">Our Gallery</h1>
+        <div class="animate-up" style="width: 50px; height: 1px; background: var(--accent); margin: 0 auto 30px;"></div>
+        
+        <div class="gallery-wrapper animate-up">
+            <div class="video-container">
+                <iframe loading="lazy" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Wedding Prewedding Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+            <div class="main-gallery-container">
+                <div class="main-gallery-track">
+                    <img loading="lazy" src="Foto_prewed/atsil-221.jpg" alt="Prewedding 1">
+                    <img loading="lazy" src="Foto_prewed/atsil-228.jpg" alt="Prewedding 2">
+                    <img loading="lazy" src="Foto_prewed/atsil-231.jpg" alt="Prewedding 3">
+                    <img loading="lazy" src="Foto_prewed/JFRL9525.jpg" alt="Prewedding 4">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" alt="Prewedding 5">
+                </div>
+            </div>
+            
+            <div class="gallery-marquee-outer">
+                <div class="gallery-infinite-track">
+                    <img loading="lazy" src="Foto_prewed/atsil-221.jpg" alt="Thumb 1">
+                    <img loading="lazy" src="Foto_prewed/atsil-225.jpg" alt="Thumb 2">
+                    <img loading="lazy" src="Foto_prewed/atsil-324.jpg" alt="Thumb 3">
+                    <img loading="lazy" src="Foto_prewed/JFRL9348.jpg" alt="Thumb 4">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" alt="Thumb 5">
+                    <img loading="lazy" src="Foto_prewed/atsil-329.jpg" alt="Thumb 6">
+                    <img loading="lazy" src="Foto_prewed/atsil-228.jpg" alt="Thumb 7">
+                    <img loading="lazy" src="Foto_prewed/JFRL9525.jpg" alt="Thumb 8">
+                    <img loading="lazy" src="Foto_prewed/JFRL9314.jpg" alt="Thumb 9">
+                    <img loading="lazy" src="Foto_prewed/JFRL9314.jpg" alt="Thumb 10">
+                    <img loading="lazy" src="Foto_prewed/atsil-223.jpg" alt="Thumb 11">
+                    <img loading="lazy" src="Foto_prewed/atsil-230.jpg" alt="Thumb 12">
+                    <img loading="lazy" src="Foto_prewed/atsil-324.jpg" alt="Thumb 1">
+                    <img loading="lazy" src="Foto_prewed/JFRL9525.jpg" alt="Thumb 2">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" alt="Thumb 3">
+                    <img loading="lazy" src="Foto_prewed/atsil-221.jpg" alt="Thumb 4">
+                    <img loading="lazy" src="Foto_prewed/atsil-223.jpg" alt="Thumb 5">
+                    <img loading="lazy" src="Foto_prewed/atsil-329.jpg" alt="Thumb 6">
+                    <img loading="lazy" src="Foto_prewed/JFRL9348.jpg" alt="Thumb 7">
+                    <img loading="lazy" src="Foto_prewed/atsil-324.jpg" alt="Thumb 8">
+                    <img loading="lazy" src="Foto_prewed/atsil-329.jpg" alt="Thumb 9">
+                    <img loading="lazy" src="Foto_prewed/JFRL9314.jpg" alt="Thumb 10">
+                    <img loading="lazy" src="Foto_prewed/JFRL9596.jpg" alt="Thumb 11">
+                    <img loading="lazy" src="Foto_prewed/atsil-230.jpg" alt="Thumb 12">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container text-center" style="padding-top: 0; margin-top: 50px;">
+        <h1 class="section-title animate-up">Wedding Gift</h1>
+        
+        <p class="animate-up" style="max-width: 600px; margin: 0 auto 35px; color: var(--primary-text); font-size: 1rem; line-height: 1.6; font-weight: 500;">
+            Tanpa mengurangi rasa hormat kami bagi tamu yang ingin mengirimkan hadiah kepada kedua mempelai dapat mengirimkannya melalui:
+        </p>
+        
+        <div class="gift-container-outer animate-up">
+            <button class="btn-klik-disini" onclick="triggerGiftAccordion()">
+                KLIK DI SINI
+            </button>
+            
+            <div class="gift-collapse-wrapper" id="gift-accordion-body">
+                <div class="gift-solid-box">
+                    
+                    <div class="gift-bank-logo bca"><span>BCA</span></div>
+                    <div class="gift-info-text">
+                        BCA - 123 456 789 10<br>
+                        Anggito Suryo Baskoro
+                    </div>
+                    <button class="btn-salin-gift" onclick="copyTextData('12345678910', this, '')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                    
+                    <div class="gift-divider"></div>
+                    
+                    <div class="gift-bank-logo bni"><span>BNI</span></div>
+                    <div class="gift-info-text">
+                        BNI - 098 765 432 11<br>
+                        Atssil Revinda Kharisma Amin
+                    </div>
+                    <button class="btn-salin-gift" onclick="copyTextData('09876543211', this, '')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+
+                    <div class="gift-divider"></div>
+
+                    <i class="fas fa-gifts gift-icon-large"></i>
+                    <div class="gift-info-text">
+                        ALAMAT PENGIRIMAN HADIAH FISIK<br>
+                        TIARA TERANG BINTANG
+                    </div>
+                    <div class="gift-info-text" style="font-weight: 500; font-size: 0.9rem;">
+                        Jl. Nogosromo, RT.1/RW.1, Dusun Kojuk, Desa Belimbing, Besuki, Kab. Situbondo<br>
+                        Besuki, Kab. Situbondo
+                    </div>
+                    <button class="btn-salin-gift" onclick="copyTextData('Jl. Nogosromo, RT.1/RW.1, Dusun Kojuk, Desa Belimbing, Besuki, Kab. Situbondo', this, '')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="rsvp-section-wrapper">
+        <div class="container text-center animate-up">
+            <h1 class="rsvp-header-title">Ucapan Doa Restu</h1>
+            <p class="rsvp-header-desc">
+                Ucapkan Selamat dan Doa Restu Kepada Mempelai Untuk Hari Bahagia Mereka. Tekan Logo Ucapan Untuk Tampilkan atau Sembunyikan Ucapan.
+            </p>
+
+            <div class="rsvp-main-container">
+                <form id="weddingRsvpForm">
+                    <input type="text" id="guest_input_name" class="rsvp-input" required placeholder="Nama">
+                    
+                    <select id="guest_input_status" class="rsvp-input" required>
+                        <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                        <option value="Hadir">Hadir</option>
+                        <option value="Tidak Hadir">Tidak Hadir</option>
+                        <option value="Tentative">Tentative</option>
+                    </select>
+                    
+                    <textarea id="guest_input_msg" class="rsvp-input" rows="3" required placeholder="Ucapan"></textarea>
+                    
+                    <div style="text-align: left;">
+                        <button type="submit" class="btn-rsvp-kirim">Kirim</button>
+                    </div>
+                </form>
+
+                <div id="rsvp-error-msg" class="notif-error-msg">
+                    Gagal memuat ucapan dari server. Namun, Anda tetap bisa mengirim ucapan!
+                </div>
+
+                <div id="konfirmasi-area" class="comment-list-area">
+                    <div class="comment-item">
+                        <div class="comment-name-row">
+                            <div class="comment-name">Vian</div>
+                            <span class="status-badge-modern status-hadir"><i class="fas fa-check"></i> Hadir</span>
+                        </div>
+                        <div class="comment-text">Selamat dan keren</div>
+                        <div class="comment-meta">
+                            <i class="far fa-clock"></i> 1 minggu, 4 hari lalu <span class="comment-reply-btn">Reply</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-item">
+                        <div class="comment-name-row">
+                            <div class="comment-name">.d</div>
+                            <span class="status-badge-modern status-tentative"><i class="fas fa-minus"></i> Tentative</span>
+                        </div>
+                        <div class="comment-text">selamat</div>
+                        <div class="comment-meta">
+                            <i class="far fa-clock"></i> 3 minggu lalu <span class="comment-reply-btn">Reply</span>
+                        </div>
+                    </div>
+
+                    <div class="comment-item">
+                        <div class="comment-name-row">
+                            <div class="comment-name">Y</div>
+                            <span class="status-badge-modern status-tidak"><i class="fas fa-times"></i> Tidak Hadir</span>
+                        </div>
+                        <div class="comment-text">Ga bisa hadir bro sibuk</div>
+                        <div class="comment-meta">
+                            <i class="far fa-clock"></i> 4 minggu lalu <span class="comment-reply-btn">Reply</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pray-section text-center">
+        <h1 class="pray-title-beautiful animate-up">Doa & Harapan</h1>
+        
+        <p class="pray-content-text animate-up" style="margin-bottom: 20px;">
+            “Semoga Allah menghimpun yang terserak dari keduanya, memberkati mereka berdua dan kiranya Allah meningkatkan kualitas keturunan mereka, menjadikannya pembuka pintu rahmat, sumber ilmu dan hikmah serta pemberi rasa aman bagi umat.”
+        </p>
+        
+        <p class="pray-content-text animate-up" style="font-style: italic;">
+            (Doa Nabi Muhammad SAW, pada pernikahan putrinya Fatimah Azzahra dengan Ali Bin Abi Thalib)
+        </p>
+    </section>
+
+    <section id="closing-section">
+        <div class="closing-scroll-bg"></div>
+        <div class="closing-gradient-overlay"></div>
+
+        <div class="closing-passage-box animate-up">
+            <p class="closing-top-text">Kami yang berbahagia</p>
+            <h1 class="closing-names">Atssil & Anggito</h1>
+            <p class="closing-desc">
+                Merupakan sebuah kehormatan dan kebahagiaan bagi kami jika Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu bagi kami. Terima kasih
+            </p>
+        </div>
+        
+        <div class="footer-credit animate-up" style="animation-delay: 0.2s;">
+            <p><i>Designed with love by : Anggito Suryo</i></p>
+            <p><i>Our instagram : anggitosuryo28</i></p>
+            <div class="footer-icons">
+                <a href="#"><i class="fas fa-globe"></i></a>
+                <a href="https://www.instagram.com/anggitosuryo28/" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <audio id="weddingBgMusic" loop preload="none">
+        <source src="Nuca-masaindah.mp3" type="audio/mpeg">
+    </audio>
+    
+    <button class="music-control-widget paused" id="music-trigger-btn" onclick="toggleWeddingMusic()">
+        <i class="fas fa-compact-disc"></i>
+    </button>
+
+    <script>
+        // INIT: Ambil nama tamu dari parameter URL (?to=Nama)
+        const parsedUrlParams = new URLSearchParams(window.location.search);
+        const urlGuestName = parsedUrlParams.get('to');
+        if (urlGuestName) {
+            document.getElementById('guest-name').innerText = urlGuestName.replace(/\+/g, ' ');
+            document.getElementById('guest_input_name').value = urlGuestName.replace(/\+/g, ' ');
+        }
+
+        // INIT: Intersection Observer untuk Animasi Scroll Otomatis (DINAMIS)
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-up').forEach((elem) => {
+                observer.observe(elem);
+            });
+            
+            setTimeout(() => {
+                document.querySelectorAll('#cover-screen .animate-up').forEach(e => e.classList.add('in-view'));
+            }, 100);
+        });
+
+        // ACT: Buka Undangan Overlay
+        function openInvitation() {
+            document.getElementById('cover-screen').classList.add('hide');
+            document.body.style.overflow = 'auto';
+            startMusicSequence();
+            
+            setTimeout(() => {
+                document.querySelectorAll('#main-hero .animate-up').forEach(e => e.classList.add('in-view'));
+            }, 800);
+        }
+
+        // ACT: Countdown Timer Engine
+        const eventExecutionDate = new Date("August 23, 2026 08:00:00").getTime();
+        const runCountdownClock = setInterval(function() {
+            const currentSystemTime = new Date().getTime();
+            const timeDifference = eventExecutionDate - currentSystemTime;
+
+            const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = daysLeft < 10 ? "0" + daysLeft : daysLeft;
+            document.getElementById("hours").innerText = hoursLeft < 10 ? "0" + hoursLeft : hoursLeft;
+            document.getElementById("minutes").innerText = minutesLeft < 10 ? "0" + minutesLeft : minutesLeft;
+            document.getElementById("seconds").innerText = secondsLeft < 10 ? "0" + secondsLeft : secondsLeft;
+
+            if (timeDifference < 0) {
+                clearInterval(runCountdownClock);
+                document.getElementById("countdown-wrapper").innerHTML = "<h3 style='color:#fff;'>Hari Bahagia Telah Tiba!</h3>";
+            }
+        }, 1000);
+
+        // ACT: Accordion Kado Collapse
+        function triggerGiftAccordion() {
+            const accordionBody = document.getElementById('gift-accordion-body');
+            if (accordionBody.style.maxHeight) {
+                accordionBody.style.maxHeight = null;
+            } else {
+                accordionBody.style.maxHeight = accordionBody.scrollHeight + "px";
+            }
+        }
+
+        // ACT: Fungsi Salin Teks / Alamat
+        function copyTextData(textString, buttonContext, label) {
+            navigator.clipboard.writeText(textString).then(() => {
+                const capturedPreviousHTML = buttonContext.innerHTML;
+                buttonContext.innerHTML = `<i class="fas fa-check"></i> Tersalin!`;
+                setTimeout(() => {
+                    buttonContext.innerHTML = capturedPreviousHTML;
+                }, 2200);
+            });
+        }
+
+        // ==========================================================
+        // ACT: SISTEM RSVP FALLBACK LOKAL / API BACKEND
+        // ==========================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUaY1Rp_1GSn7UsRt4UZmFIDswsam5OyTxvbMA-KW-yrKpq4VH3iSetIRofh2reH_asA/exec'; 
+
+        const formRsvp = document.getElementById('weddingRsvpForm');
+        const commentAreaContainer = document.getElementById('konfirmasi-area');
+
+        // Fungsi Memuat Komentar (Dihentikan sementara fallback ke lokal agar tidak error)
+        function loadComments() {
+            if(!SCRIPT_URL) return;
+            
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) return;
+                    commentAreaContainer.innerHTML = '';
+                    
+                    data.forEach(item => {
+                        let badgeClass = "status-badge-modern ";
+                        let badgeIcon = "";
+                        
+                        if (item.status === "Hadir") {
+                            badgeClass += "status-hadir";
+                            badgeIcon = '<i class="fas fa-check"></i>';
+                        } else if (item.status === "Tidak Hadir") {
+                            badgeClass += "status-tidak";
+                            badgeIcon = '<i class="fas fa-times"></i>';
+                        } else {
+                            badgeClass += "status-tentative";
+                            badgeIcon = '<i class="fas fa-minus"></i>';
+                        }
+
+                        const dateObj = new Date(item.waktu);
+                        const formattedDate = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'comment-item animate-up in-view';
+                        
+                        commentElement.innerHTML = `
+                            <div class="comment-name-row">
+                                <div class="comment-name">${item.nama}</div>
+                                <span class="${badgeClass}">${badgeIcon} ${item.status}</span>
+                            </div>
+                            <div class="comment-text">${item.ucapan}</div>
+                            <div class="comment-meta">
+                                <i class="far fa-clock"></i> ${formattedDate} <span class="comment-reply-btn">Reply</span>
+                            </div>
+                        `;
+                        commentAreaContainer.appendChild(commentElement);
+                    });
+                })
+                .catch(error => {
+                    console.log('API Fetch Error:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadComments);
+
+        // Fungsi Mengirim Komentar
+        formRsvp.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            const originalBtnText = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = 'Mengirim... <i class="fas fa-spinner fa-spin"></i>';
+            btnSubmit.disabled = true;
+
+            const formData = {
+                nama: document.getElementById('guest_input_name').value,
+                status: document.getElementById('guest_input_status').value,
+                ucapan: document.getElementById('guest_input_msg').value
+            };
+            
+            let badgeClass = "status-badge-modern ";
+            let badgeIcon = "";
+            if (formData.status === "Hadir") {
+                badgeClass += "status-hadir";
+                badgeIcon = '<i class="fas fa-check"></i>';
+            } else if (formData.status === "Tidak Hadir") {
+                badgeClass += "status-tidak";
+                badgeIcon = '<i class="fas fa-times"></i>';
+            } else {
+                badgeClass += "status-tentative";
+                badgeIcon = '<i class="fas fa-minus"></i>';
+            }
+
+            // Fungsi lokal tambah ke UI
+            const tambahKeUI = () => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment-item animate-up in-view';
+                commentElement.innerHTML = `
+                    <div class="comment-name-row">
+                        <div class="comment-name">${formData.nama}</div>
+                        <span class="${badgeClass}">${badgeIcon} ${formData.status}</span>
+                    </div>
+                    <div class="comment-text">${formData.ucapan}</div>
+                    <div class="comment-meta">
+                        <i class="far fa-clock"></i> Baru saja <span class="comment-reply-btn">Reply</span>
+                    </div>
+                `;
+                commentAreaContainer.insertBefore(commentElement, commentAreaContainer.firstChild);
+                formRsvp.reset();
+                btnSubmit.innerHTML = originalBtnText;
+                btnSubmit.disabled = false;
+                alert("Terima kasih atas konfirmasi RSVP dan ucapan doa restu Anda!");
+            };
+
+            if(SCRIPT_URL && SCRIPT_URL !== '') {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    tambahKeUI();
+                })
+                .catch(error => {
+                    console.error('Error submitting data:', error);
+                    tambahKeUI(); // Tetap tampilkan secara visual jika error API
+                });
+            } else {
+                setTimeout(tambahKeUI, 800);
+            }
+        });
+
+        // ACT: Kontrol Background Musik
+        const nativeAudioNode = document.getElementById('weddingBgMusic');
+        const uiMusicTriggerWidget = document.getElementById('music-trigger-btn');
+        let audioPlayStateStatus = false;
+
+        function startMusicSequence() {
+            nativeAudioNode.play().then(() => {
+                uiMusicTriggerWidget.classList.remove('paused');
+                audioPlayStateStatus = true;
+            }).catch((error) => {
+                console.log("Autoplay restrictions diagnostic:", error);
+            });
+        }
+
+        function toggleWeddingMusic() {
+            if (audioPlayStateStatus) {
+                nativeAudioNode.pause();
+                uiMusicTriggerWidget.classList.add('paused');
+            } else {
+                nativeAudioNode.play();
+                uiMusicTriggerWidget.classList.remove('paused');
+            }
+            audioPlayStateStatus = !audioPlayStateStatus;
+        }
+    </script>
+</body>
+</html>
